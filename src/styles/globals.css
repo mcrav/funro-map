@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.mountain-popup {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.mountain-popup a {
+  text-decoration: underline;
+  font-size: 16px;
+  color: #07a;
+}
+
+.mountain-popup a:hover {
+  color: #09c;
+}
