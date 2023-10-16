@@ -12,9 +12,6 @@ const config = {
       parserOptions: {
         project: path.join(__dirname, "tsconfig.json"),
       },
-      rules: {
-        "@typescript-eslint/ban-ts-ignore": "off",
-      },
     },
   ],
   parser: "@typescript-eslint/parser",
@@ -24,7 +21,7 @@ const config = {
   plugins: ["@typescript-eslint"],
   extends: ["next/core-web-vitals", "plugin:@typescript-eslint/recommended"],
   rules: {
-    "@typescript-eslint/ban-ts-ignore": "off",
+    "@typescript-eslint/ban-ts-comment": "off",
     "@typescript-eslint/consistent-type-imports": [
       "warn",
       {

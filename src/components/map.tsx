@@ -17,12 +17,27 @@ type Mountains = {
   bronze: Mountain[];
 };
 
+type Feature = {
+  type: "Feature";
+  geometry: {
+    type: "Point";
+    coordinates: [number, number];
+  };
+  properties: FeatureProperties;
+};
+
+type FeatureProperties = {
+  name: string;
+  href: string;
+  altitude: number;
+};
+
 const mountains = mountainsData as Mountains;
 
-const mountainToFeature = (mountain: Mountain) => ({
-  type: "Feature" as "Feature",
+const mountainToFeature = (mountain: Mountain): Feature => ({
+  type: "Feature",
   geometry: {
-    type: "Point" as "Point",
+    type: "Point",
     coordinates: [mountain.lng, mountain.lat],
   },
   properties: {
@@ -66,7 +81,18 @@ const useCircles = ({
       source: id,
       paint: {
         "circle-color": color, // Customize the circle color
-        "circle-radius": 5, // Customize the circle radius
+        // "circle-radius": [
+        //   "interpolate",
+        //   ["linear"],
+        //   ["zoom"],
+        //   5,
+        //   3, // Zoom level 5 and below: Circle radius is 10
+        //   10,
+        //   5, // Zoom level 10: Circle radius is 20
+        //   15,
+        //   5, // Zoom level 15 and above: Circle radius is 30
+        // ],
+        "circle-radius": 5,
         "circle-stroke-color": "black",
         "circle-stroke-opacity": 1,
         "circle-stroke-width": 1,
@@ -78,8 +104,13 @@ const useCircles = ({
         return;
       }
       // @ts-ignore
-      const coordinates = e.features[0].geometry.coordinates;
-      const properties = e.features[0].properties;
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      const coordinates = e.features[0].geometry.coordinates as [
+        number,
+        number
+      ];
+
+      const properties = e.features[0].properties as FeatureProperties;
 
       new mapboxgl.Popup()
         .setLngLat(coordinates)
@@ -99,7 +130,7 @@ const useCircles = ({
     // Cleanup the map instance when the component unmounts
     return () => {
       map.current?.removeLayer(id);
-      map?.current?.removeSource(id);
+      map.current?.removeSource(id);
     };
   }, [map, mountains, mapIsLoaded, color, id]);
 };
@@ -107,12 +138,9 @@ const useCircles = ({
 export const Map = () => {
   const mapContainer = useRef<null | HTMLDivElement>(null);
   const map = useRef<null | mapboxgl.Map>(null);
-  // @ts-ignore
-  const [lng, setLng] = useState(-4.247334);
-  // @ts-ignore
-  const [lat, setLat] = useState(57.022703);
-  // @ts-ignore
-  const [zoom, setZoom] = useState(6);
+  const [lng] = useState(-4.247334);
+  const [lat] = useState(57.022703);
+  const [zoom] = useState(6);
   const [mapIsLoaded, setMapIsLoaded] = useState(false);
 
   useEffect(() => {
@@ -124,14 +152,15 @@ export const Map = () => {
       zoom: zoom,
     });
     map.current.on("load", () => setMapIsLoaded(true));
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [map]);
 
   useCircles({
     map,
     mapIsLoaded: mapIsLoaded,
-    mountains: mountains.gold,
-    color: "gold",
-    id: "gold",
+    mountains: mountains.bronze,
+    color: "#a90",
+    id: "bronze",
   });
   useCircles({
     map,
@@ -143,14 +172,17 @@ export const Map = () => {
   useCircles({
     map,
     mapIsLoaded: mapIsLoaded,
-    mountains: mountains.bronze,
-    color: "#a90",
-    id: "bronze",
+    mountains: mountains.gold,
+    color: "gold",
+    id: "gold",
   });
 
   return (
     <div className="relative h-screen w-screen">
-      <div ref={mapContainer} className="map-container h-full w-full" />
+      <div
+        ref={mapContainer}
+        className="map-container mx-auto h-full w-full lg:w-3/4 xl:w-1/2"
+      />
     </div>
   );
 };
