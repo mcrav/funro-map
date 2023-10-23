@@ -1,5 +1,6 @@
 import { type FunctionComponent, type PropsWithChildren } from "react";
 import classnames from "classnames";
+import classNames from "classnames";
 
 type TypographyProps = PropsWithChildren<{
   className?: string;
@@ -54,4 +55,18 @@ export const P: FunctionComponent<TypographyProps> = ({
   className,
 }) => {
   return <p className={className}>{children}</p>;
+};
+
+export const A: FunctionComponent<
+  TypographyProps & { href: string; target: "_blank" }
+> = ({ children, className, href, target }) => {
+  return (
+    <a
+      href={href}
+      target={target}
+      className={classNames(className, "text-sky-800 hover:text-sky-600")}
+    >
+      {children}
+    </a>
+  );
 };
