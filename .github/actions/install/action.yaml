@@ -23,6 +23,6 @@ runs:
           ~/.cache/Cypress
 
     - name: Install
-      run: yarn --frozen-lockfile
+      run: yarn --immutable
       shell: bash
       if: steps.cache-node-modules.outputs.cache-hit != 'true'
