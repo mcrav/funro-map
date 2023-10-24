@@ -9,9 +9,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: LS
-        run: ls -a .
-
       - uses: ./.github/actions/install
 
       - name: Lint

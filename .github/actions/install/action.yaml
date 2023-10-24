@@ -22,7 +22,13 @@ runs:
           node_modules
           ~/.cache/Cypress
 
-    - name: Install
+    - name: Install Yarn 4
+      run: |
+        corepack prepare yarn@4 --activate
+        yarn set version 4
+      shell: bash
+
+    - name: Install dependencies
       run: yarn --immutable
       shell: bash
       if: steps.cache-node-modules.outputs.cache-hit != 'true'
