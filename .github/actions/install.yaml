@@ -1,0 +1,28 @@
+name: Install Node and dependencies
+runs:
+  using: composite
+  steps:
+    - name: Setup node
+      uses: actions/setup-node@v1
+      with:
+        node_version: 18.x
+
+    - name: Get Node version
+      id: node-version
+      run: |
+        echo "version=$(node --version)" >> $GITHUB_OUTPUT
+      shell: bash
+
+    - name: Cache node_modules
+      id: cache-node-modules
+      uses: actions/cache@v3
+      with:
+        key: node_modules-${{ runner.os }}-${{ steps.node-version.outputs.version}}-${{ hashFiles('yarn.lock') }}
+        path: |
+          node_modules
+          ~/.cache/Cypress
+
+    - name: Install
+      run: yarn --frozen-lockfile
+      shell: bash
+      if: steps.cache-node-modules.outputs.cache-hit != 'true'
