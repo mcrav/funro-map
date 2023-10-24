@@ -25,7 +25,7 @@ runs:
     - name: Install Yarn 4
       run: |
         corepack prepare yarn@4.x --activate
-        yarn set version 4.x
+        yarn set version 4
       shell: bash
 
     - name: Install dependencies
