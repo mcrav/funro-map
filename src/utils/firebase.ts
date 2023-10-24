@@ -1,8 +1,4 @@
-import {
-  getAnalytics,
-  setAnalyticsCollectionEnabled,
-} from "firebase/analytics";
-import { FirebaseOptions, initializeApp } from "firebase/app";
+import { type FirebaseOptions, initializeApp } from "firebase/app";
 
 const firebaseConfig: FirebaseOptions = {
   apiKey: "AIzaSyBWK--62AgjofRvhMi-MQ4VOfJvSNVKpDc",

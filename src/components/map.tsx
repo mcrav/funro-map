@@ -131,6 +131,7 @@ const useCircles = ({
     return () => {
       map.current?.removeLayer(id);
       map.current?.removeSource(id);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     };
   }, [map, mountains, mapIsLoaded, color, id]);
 };
