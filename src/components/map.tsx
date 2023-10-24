@@ -130,6 +130,7 @@ const useCircles = ({
     // Cleanup the map instance when the component unmounts
     return () => {
       map.current?.removeLayer(id);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       map.current?.removeSource(id);
     };
   }, [map, mountains, mapIsLoaded, color, id]);

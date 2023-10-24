@@ -4,9 +4,6 @@ import mapboxgl from "mapbox-gl";
 
 import "~/styles/globals.css";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { getAnalytics } from "firebase/analytics";
-import { useEffect } from "react";
-import { firebaseApp } from "~/utils/firebase";
 import { CookiePopup } from "~/components/cookie-popup";
 
 mapboxgl.accessToken =

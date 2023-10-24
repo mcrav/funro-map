@@ -1,5 +1,5 @@
+import React, { type PropsWithChildren } from "react";
 import classNames from "classnames";
-import React, { PropsWithChildren } from "react";
 
 export const Button = ({
   color = "primary",
