@@ -16,5 +16,6 @@ jobs:
 
       - name: Build
         run: |
+          curl -sL firebase.tools | bash
           yarn build
           firebase deploy --token "${{ secrets.FIREBASE_TOKEN }}"
