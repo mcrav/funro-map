@@ -54,7 +54,7 @@ export const P: FunctionComponent<TypographyProps> = ({
   children,
   className,
 }) => {
-  return <p className={className}>{children}</p>;
+  return <p className={classNames(className, "my-1")}>{children}</p>;
 };
 
 export const A: FunctionComponent<

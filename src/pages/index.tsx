@@ -1,9 +1,23 @@
 import { type NextPage } from "next";
 import Head from "next/head";
+import { useEffect, useState } from "react";
+import { InfoModal } from "~/components/info-modal";
 import { Map } from "~/components/map";
 import { H1, H2 } from "~/components/typography";
+import { LocalStorageKeys } from "~/constants";
 
 const Home: NextPage = () => {
+  const [showInfoModal, setShowInfoModal] = useState(false);
+
+  useEffect(() => {
+    const infoModalSeen = localStorage.getItem(
+      LocalStorageKeys.INFO_MODAL_SEEN
+    );
+    if (!infoModalSeen) {
+      setShowInfoModal(true);
+    }
+  }, []);
+
   return (
     <>
       <Head>
@@ -19,6 +33,13 @@ const Home: NextPage = () => {
           <H2>{"Because size isn't everything..."}</H2>
         </div>
         <Map />
+        <InfoModal
+          show={showInfoModal}
+          onContinue={() => {
+            localStorage.setItem(LocalStorageKeys.INFO_MODAL_SEEN, "true");
+            setShowInfoModal(false);
+          }}
+        />
       </main>
     </>
   );

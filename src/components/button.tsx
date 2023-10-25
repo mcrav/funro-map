@@ -22,7 +22,7 @@ export const Button = ({
       type={type}
       disabled={disabled || loading}
       onClick={onClick}
-      className={classNames(className, " px-6 py-3", {
+      className={classNames(className, "m-1 px-6 py-3", {
         "bg-teal-600 text-white": color === "primary",
         "bg-slate-300 text-black": color === "secondary",
       })}
