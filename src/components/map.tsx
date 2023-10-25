@@ -112,7 +112,7 @@ const useCircles = ({
 
       const properties = e.features[0].properties as FeatureProperties;
 
-      new mapboxgl.Popup()
+      new mapboxgl.Popup({ closeButton: false })
         .setLngLat(coordinates)
         .setHTML(
           properties
@@ -141,7 +141,7 @@ export const Map = () => {
   const map = useRef<null | mapboxgl.Map>(null);
   const [lng] = useState(-4.247334);
   const [lat] = useState(57.022703);
-  const [zoom] = useState(6);
+  const [zoom] = useState(5.5);
   const [mapIsLoaded, setMapIsLoaded] = useState(false);
 
   useEffect(() => {
@@ -151,8 +151,11 @@ export const Map = () => {
       style: "mapbox://styles/mapbox/streets-v12",
       center: [lng, lat],
       zoom: zoom,
+      minZoom: 5,
     });
-    map.current.on("load", () => setMapIsLoaded(true));
+    map.current.on("load", () => {
+      setMapIsLoaded(true);
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [map]);
 
@@ -180,10 +183,7 @@ export const Map = () => {
 
   return (
     <div className="relative h-screen w-screen">
-      <div
-        ref={mapContainer}
-        className="map-container mx-auto h-full w-full lg:w-3/4 xl:w-1/2"
-      />
+      <div ref={mapContainer} className="map-container h-full w-full" />
     </div>
   );
 };
