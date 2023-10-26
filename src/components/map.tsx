@@ -1,4 +1,4 @@
-import mapboxgl from "mapbox-gl";
+import mapboxgl, { type GeoJSONSource } from "mapbox-gl";
 import { type MutableRefObject, useEffect, useRef, useState } from "react";
 import mountainsData from "../data/mountains.json";
 
@@ -9,13 +9,10 @@ type Mountain = {
   lng: number;
   alt: number;
   url: string;
+  rank: string;
 };
 
-type Mountains = {
-  gold: Mountain[];
-  silver: Mountain[];
-  bronze: Mountain[];
-};
+type Mountains = Mountain[];
 
 type Feature = {
   type: "Feature";
@@ -30,6 +27,7 @@ type FeatureProperties = {
   name: string;
   href: string;
   altitude: number;
+  rank: string;
 };
 
 const mountains = mountainsData as Mountains;
@@ -42,6 +40,7 @@ const mountainToFeature = (mountain: Mountain): Feature => ({
   },
   properties: {
     name: mountain.name,
+    rank: mountain.rank,
     href: mountain.url,
     altitude: mountain.alt,
   },
@@ -50,14 +49,10 @@ const mountainToFeature = (mountain: Mountain): Feature => ({
 const useCircles = ({
   map,
   mapIsLoaded,
-  id,
-  color,
   mountains,
 }: {
   map: MutableRefObject<mapboxgl.Map | null>;
   mapIsLoaded: boolean;
-  id: string;
-  color: string;
   mountains: Mountain[];
 }) => {
   useEffect(() => {
@@ -65,41 +60,110 @@ const useCircles = ({
       return;
     }
 
+    const sourceId = "moutain-source";
+
     // Create a GeoJSON source with your data
-    map.current.addSource(id, {
+    map.current.addSource(sourceId, {
       type: "geojson",
       data: {
         type: "FeatureCollection",
         features: mountains.map(mountainToFeature),
       },
+      cluster: true,
+      clusterRadius: 20,
+    });
+
+    // Cluster layer
+    map.current.addLayer({
+      id: "clusters",
+      type: "circle",
+      source: sourceId,
+      filter: ["has", "point_count"],
+      paint: {
+        "circle-color": [
+          "step",
+          ["get", "point_count"],
+          "#51bbd6",
+          100,
+          "#f1f075",
+          750,
+          "#f28cb1",
+        ],
+        "circle-radius": [
+          "interpolate",
+          ["linear"],
+          ["get", "point_count"],
+          0,
+          0,
+          2,
+          8,
+          29,
+          20,
+        ],
+        "circle-opacity": 0.6,
+      },
+    });
+    map.current.addLayer({
+      id: "cluster-count",
+      type: "symbol",
+      source: sourceId,
+      filter: ["has", "point_count"],
+      layout: {
+        "text-field": ["get", "point_count_abbreviated"],
+        "text-font": ["DIN Offc Pro Medium", "Arial Unicode MS Bold"],
+        "text-size": 12,
+      },
     });
 
     // Add a layer to render circles based on the source
     map.current.addLayer({
-      id,
+      id: "points",
       type: "circle",
-      source: id,
+      source: sourceId,
+      filter: ["!", ["has", "point_count"]],
       paint: {
-        "circle-color": color, // Customize the circle color
-        // "circle-radius": [
-        //   "interpolate",
-        //   ["linear"],
-        //   ["zoom"],
-        //   5,
-        //   3, // Zoom level 5 and below: Circle radius is 10
-        //   10,
-        //   5, // Zoom level 10: Circle radius is 20
-        //   15,
-        //   5, // Zoom level 15 and above: Circle radius is 30
-        // ],
-        "circle-radius": 5,
+        "circle-color": [
+          "match",
+          ["get", "rank"],
+          "gold",
+          "gold",
+          "silver",
+          "silver",
+          "bronze",
+          "#a90",
+          "blue",
+        ],
+        "circle-radius": 6,
         "circle-stroke-color": "black",
         "circle-stroke-opacity": 1,
         "circle-stroke-width": 1,
       },
     });
 
-    map.current.on("click", id, (e) => {
+    map.current.on("click", "clusters", (e) => {
+      if (!map.current) {
+        return;
+      }
+      const features = map.current.queryRenderedFeatures(e.point, {
+        layers: ["clusters"],
+      });
+      if (!features[0]) return;
+      if (!features[0].properties) return;
+      const clusterId = features[0].properties.cluster_id as number;
+      const source = map.current.getSource(sourceId) as GeoJSONSource;
+      source.getClusterExpansionZoom(clusterId, (err, zoom) => {
+        if (err || !map.current || !features[0]) return;
+
+        // @ts-ignore
+        const feature = features[0] as Feature;
+        map.current.easeTo({
+          center: feature.geometry.coordinates,
+          zoom: zoom,
+        });
+      });
+    });
+
+    map.current.on("click", "points", (e) => {
       if (!e.features || !e.features[0] || !map.current) {
         return;
       }
@@ -129,11 +193,13 @@ const useCircles = ({
 
     // Cleanup the map instance when the component unmounts
     return () => {
-      map.current?.removeLayer(id);
+      map.current?.removeLayer("points");
+      map.current?.removeLayer("clusters");
+      map.current?.removeLayer("cluster-count");
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      map.current?.removeSource(id);
+      map.current?.removeSource("mountain-source");
     };
-  }, [map, mountains, mapIsLoaded, color, id]);
+  }, [map, mountains, mapIsLoaded]);
 };
 
 export const Map = () => {
@@ -162,23 +228,7 @@ export const Map = () => {
   useCircles({
     map,
     mapIsLoaded: mapIsLoaded,
-    mountains: mountains.bronze,
-    color: "#a90",
-    id: "bronze",
-  });
-  useCircles({
-    map,
-    mapIsLoaded: mapIsLoaded,
-    mountains: mountains.silver,
-    color: "silver",
-    id: "silver",
-  });
-  useCircles({
-    map,
-    mapIsLoaded: mapIsLoaded,
-    mountains: mountains.gold,
-    color: "gold",
-    id: "gold",
+    mountains: mountains,
   });
 
   return (

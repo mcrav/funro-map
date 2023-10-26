@@ -19,7 +19,8 @@ export const InfoModal = ({
           Munro bagging is great, but sometimes big mountains are really boring.
         </P>
         <P>
-          This map shows the <b>210 best rated</b> mountains in Scotland.
+          This map shows the <b>210 best rated</b> mountains in Scotland, as
+          decided by users on walkhighlands.co.uk
         </P>
         <div className="flex justify-center">
           <div className="text-start">
