@@ -30,23 +30,37 @@ export const addPointsLayer: LayerFunction = (map) => {
     },
   });
 
+  map.on("click", LayerIds.POINTS, (e) => {
+    if (!e.features || !e.features[0]) {
+      return;
+    }
+    // @ts-ignore
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const coordinates = e.features[0].geometry.coordinates as [number, number];
+
+    const properties = e.features[0].properties as FeatureProperties;
+
+    map.easeTo({ center: coordinates, zoom: Math.max(8, map.getZoom()) });
+
+    new mapboxgl.Popup({ closeButton: false })
+      .setLngLat(coordinates)
+      .setHTML(
+        properties
+          ? `
+<div class="mountain-popup">
+  <a href="https://walkhighlands.co.uk/${properties.href}" target="_blank">${properties.name}</a>
+  <p>${properties.altitude}</p>
+</div>
+`
+          : ""
+      )
+      .addTo(map);
+  });
+
   return () => map.removeLayer(LayerIds.POINTS);
 };
 
 export const addPointLabelsLayer: LayerFunction = (map) => {
-  map.addLayer({
-    id: LayerIds.POINT_LABELS,
-    type: "symbol",
-    source: SourceIds.MOUNTAINS,
-    filter: ["!", ["has", "point_count"]],
-    layout: {
-      "text-field": ["get", "name"],
-      "text-font": ["DIN Offc Pro Medium", "Arial Unicode MS Bold"],
-      "text-size": ["step", ["zoom"], 0, 7.8, 12],
-      "text-offset": [0, -1.6],
-    },
-  });
-
   map.addLayer({
     id: LayerIds.POINT_LABELS_ALTITUDE,
     type: "symbol",
@@ -55,8 +69,20 @@ export const addPointLabelsLayer: LayerFunction = (map) => {
     layout: {
       "text-field": ["get", "altitude"],
       "text-font": ["DIN Offc Pro Medium", "Arial Unicode MS Bold"],
-      "text-size": ["step", ["zoom"], 0, 7.8, 12],
+      "text-size": ["step", ["zoom"], 0, 8.5, 12],
       "text-offset": [0, 1.6],
+    },
+  });
+  map.addLayer({
+    id: LayerIds.POINT_LABELS,
+    type: "symbol",
+    source: SourceIds.MOUNTAINS,
+    filter: ["!", ["has", "point_count"]],
+    layout: {
+      "text-field": ["get", "name"],
+      "text-font": ["DIN Offc Pro Medium", "Arial Unicode MS Bold"],
+      "text-size": ["step", ["zoom"], 0, 8.5, 12],
+      "text-offset": [0, -1.6],
     },
   });
 
@@ -132,30 +158,6 @@ export const addClusterCountsLayer: LayerFunction = (map) => {
       "text-font": ["DIN Offc Pro Medium", "Arial Unicode MS Bold"],
       "text-size": 12,
     },
-  });
-  map.on("click", LayerIds.POINTS, (e) => {
-    if (!e.features || !e.features[0]) {
-      return;
-    }
-    // @ts-ignore
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const coordinates = e.features[0].geometry.coordinates as [number, number];
-
-    const properties = e.features[0].properties as FeatureProperties;
-
-    new mapboxgl.Popup({ closeButton: false })
-      .setLngLat(coordinates)
-      .setHTML(
-        properties
-          ? `
-<div class="mountain-popup">
-  <a href="https://walkhighlands.co.uk/${properties.href}" target="_blank">${properties.name}</a>
-  <p>${properties.altitude} m</p>
-</div>
-`
-          : ""
-      )
-      .addTo(map);
   });
 
   return () => map.removeLayer(LayerIds.CLUSTER_COUNTS);
