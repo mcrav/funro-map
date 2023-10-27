@@ -23,7 +23,7 @@ export const Button = ({
       disabled={disabled || loading}
       onClick={onClick}
       className={classNames(className, "m-1 px-6 py-3", {
-        "bg-teal-600 text-white": color === "primary",
+        "bg-teal-700 text-white": color === "primary",
         "bg-slate-300 text-black": color === "secondary",
       })}
     >
