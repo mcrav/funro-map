@@ -29,7 +29,7 @@ export const addMountainsSource: SourceFunction = (map) => {
       features: mountains.map(mountainToFeature),
     },
     cluster: true,
-    clusterRadius: 20,
+    clusterRadius: 30,
   });
 
   return () => map.removeSource(SourceIds.MOUNTAINS);
