@@ -2,7 +2,7 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import { InfoModal } from "~/components/info-modal";
-import { Map } from "~/components/map";
+import { Map } from "~/components/map/map";
 import { H1, H2 } from "~/components/typography";
 import { LocalStorageKeys } from "~/constants";
 
