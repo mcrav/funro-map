@@ -58,13 +58,13 @@ export const P: FunctionComponent<TypographyProps> = ({
 };
 
 export const A: FunctionComponent<
-  TypographyProps & { href: string; target: "_blank" }
+  TypographyProps & { href: string; target?: "_blank" }
 > = ({ children, className, href, target }) => {
   return (
     <a
       href={href}
       target={target}
-      className={classNames(className, "text-sky-800 hover:text-sky-600")}
+      className={classNames(className, "text-sky-800 hover:text-sky-600 underline")}
     >
       {children}
     </a>
