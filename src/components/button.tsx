@@ -1,6 +1,6 @@
 import React, { type PropsWithChildren } from "react";
 import classNames from "classnames";
-import { TestIds } from "~/constants/test";
+import { type TestIds } from "~/constants/test";
 
 export const Button = ({
   color = "primary",

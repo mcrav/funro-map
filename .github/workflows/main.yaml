@@ -34,5 +34,8 @@ jobs:
 
       - name: Cypress run
         uses: cypress-io/github-action@v6
+        env:
+          # All env vars must be prefixed with CYPRESS_ https://github.com/cypress-io/github-action
+          CYPRESS_TEST_URL: "https://funromap.web.app"
         with:
           wait-on: https://funromap.web.app

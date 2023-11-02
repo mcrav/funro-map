@@ -25,9 +25,11 @@ jobs:
 
       - name: Cypress run
         uses: cypress-io/github-action@v6
+        env:
+          CYPRESS_TEST_URL: "http://localhost:3000"
         with:
           build: yarn build
-          start: yarn start
+          start: npx serve@latest out
           wait-on: http://localhost:3000
 
   # Unnecessary if you build during E2E job
