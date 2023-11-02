@@ -19,7 +19,7 @@ export const H2: FunctionComponent<TypographyProps> = ({
   children,
   className,
 }) => {
-  return <h2 className={classnames(className, 'font-semibold')}>{children}</h2>;
+  return <h2 className={classnames(className, "font-semibold")}>{children}</h2>;
 };
 
 export const H3: FunctionComponent<TypographyProps> = ({
@@ -58,7 +58,7 @@ export const P: FunctionComponent<TypographyProps> = ({
 };
 
 export const A: FunctionComponent<
-  TypographyProps & { href: string; target: "_blank" }
+  TypographyProps & { href: string; target?: "_blank" }
 > = ({ children, className, href, target }) => {
   return (
     <a
