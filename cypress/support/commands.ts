@@ -35,4 +35,3 @@
 //     }
 //   }
 // }
-Cypress.env("TEST_URL", "http://localhost:3000");
