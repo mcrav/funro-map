@@ -14,8 +14,8 @@ jobs:
       - name: Lint
         run: yarn lint --max-warnings=0
 
-  build:
-    name: Build
+  e2e:
+    name: E2E
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -23,5 +23,22 @@ jobs:
 
       - uses: ./.github/actions/install
 
-      - name: Build
-        run: yarn build
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
+        with:
+          build: yarn build
+          start: yarn start
+          wait-on: http://localhost:3000
+
+  # Unnecessary if you build during E2E job
+  # build:
+  #   name: Build
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
+
+  #     - uses: ./.github/actions/install
+
+  #     - name: Build
+  #       run: yarn build

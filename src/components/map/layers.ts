@@ -1,6 +1,7 @@
 import mapboxgl, { type GeoJSONSource } from "mapbox-gl";
 import { LayerIds, SourceIds } from "./constants";
 import { type Feature, type FeatureProperties } from "./types";
+import { Colors } from "~/constants/colors";
 
 type LayerFunction = (map: mapboxgl.Map) => () => void;
 
@@ -16,11 +17,11 @@ export const addPointsLayer: LayerFunction = (map) => {
         "match",
         ["get", "rank"],
         "gold",
-        "gold",
+        Colors.GOLD,
         "silver",
-        "silver",
+        Colors.SILVER,
         "bronze",
-        "#a90",
+        Colors.BRONZE,
         "blue",
       ],
       "circle-radius": 6,

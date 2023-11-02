@@ -2163,9 +2163,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cypress@npm:^13.3.2":
-  version: 13.3.2
-  resolution: "cypress@npm:13.3.2"
+"cypress@npm:^13.4.0":
+  version: 13.4.0
+  resolution: "cypress@npm:13.4.0"
   dependencies:
     "@cypress/request": "npm:^3.0.0"
     "@cypress/xvfb": "npm:^1.2.4"
@@ -2212,7 +2212,7 @@ __metadata:
     yauzl: "npm:^2.10.0"
   bin:
     cypress: bin/cypress
-  checksum: deb1dbe31586db60d67db13c2828264d7bbab2a574cba5a37c683bfd430221e4741be67d9a62ed9dd78fc534f0f3d13497dbb057188faef5e029edc7fa42456d
+  checksum: e5842bf4751b7b36560360333b0361d253e895a39aee65b0fb3bb6cc2d5cf39b964eb2e02778934da0fc5cd4ba46d336606250e25d17ab0c03f9ca771f1a6fed
   languageName: node
   linkType: hard
 
@@ -4615,7 +4615,7 @@ __metadata:
     autoprefixer: "npm:^10.4.14"
     axios: "npm:^1.5.1"
     classnames: "npm:^2.3.2"
-    cypress: "npm:^13.3.2"
+    cypress: "npm:^13.4.0"
     eslint: "npm:^8.36.0"
     eslint-config-next: "npm:^13.2.4"
     firebase: "npm:^10.5.0"

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { A, H1, H2 } from "./typography";
+import { TestIds } from "~/constants/test";
 
 export const Navbar = () => {
   const menuRef = useRef<HTMLUListElement | null>(null);
@@ -41,7 +42,11 @@ export const Navbar = () => {
         className="absolute right-0 top-0 m-6 inline-flex flex-col items-center justify-center"
         ref={buttonRef}
       >
-        <button onClick={toggleMenu} className="text-white">
+        <button
+          onClick={toggleMenu}
+          className="text-white"
+          data-cy={TestIds.HAMBURGER_MENU}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6"

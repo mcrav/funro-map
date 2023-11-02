@@ -1,5 +1,6 @@
 import React, { type PropsWithChildren } from "react";
 import classNames from "classnames";
+import { TestIds } from "~/constants/test";
 
 export const Button = ({
   color = "primary",
@@ -9,6 +10,7 @@ export const Button = ({
   children,
   onClick,
   className,
+  testId,
 }: PropsWithChildren<{
   color?: "primary" | "secondary";
   type?: "button" | "submit";
@@ -16,9 +18,11 @@ export const Button = ({
   disabled?: boolean;
   onClick: () => void;
   className?: string;
+  testId?: TestIds;
 }>) => {
   return (
     <button
+      data-cy={testId}
       type={type}
       disabled={disabled || loading}
       onClick={onClick}

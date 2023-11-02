@@ -4,6 +4,7 @@ import { LocalStorageKeys } from "~/constants";
 import { firebaseApp } from "~/utils/firebase";
 import { Button } from "./button";
 import { A, P } from "./typography";
+import { TestIds } from "~/constants/test";
 
 export const CookiePopup = () => {
   const [seen, setSeen] = useState(true);
@@ -44,6 +45,7 @@ export const CookiePopup = () => {
         </P>
         <div className="mt-3 flex items-center justify-center gap-3">
           <Button
+            testId={TestIds.REJECT_COOKIE_POPUP}
             color="secondary"
             onClick={() => {
               localStorage.setItem(
@@ -57,6 +59,7 @@ export const CookiePopup = () => {
             Reject
           </Button>
           <Button
+            testId={TestIds.ACCEPT_COOKIE_POPUP}
             onClick={() => {
               localStorage.setItem(
                 LocalStorageKeys.COOKIE_POPUP_ACCEPTED,
