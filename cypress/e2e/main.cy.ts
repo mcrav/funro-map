@@ -1,10 +1,10 @@
 import { getById } from "cypress/utils";
-import { Test } from "mocha";
 import { TestIds } from "~/constants/test";
 
-describe("template spec", () => {
-  it("passes", () => {
-    cy.visit("http://localhost:3000");
+describe("Full app test", () => {
+  it("should work", () => {
+    // eslint-disable-next-line
+    cy.visit(Cypress.env("TEST_URL"));
 
     // Assert info modal
     cy.contains("The Funros");
