@@ -34,7 +34,7 @@ jobs:
 
       - name: Cypress run
         uses: cypress-io/github-action@v6
-        with:
-          wait-on: https://funromap.web.app
         env:
           TEST_URL: "https://funromap.web.app"
+        with:
+          wait-on: https://funromap.web.app
