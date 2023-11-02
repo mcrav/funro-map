@@ -3,7 +3,8 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 import { InfoModal } from "~/components/info-modal";
 import { Map } from "~/components/map/map";
-import { A, H1, H2 } from "~/components/typography";
+import { Navbar } from "~/components/navbar";
+import { A } from "~/components/typography";
 import { LocalStorageKeys } from "~/constants";
 
 const Home: NextPage = () => {
@@ -44,10 +45,7 @@ const Home: NextPage = () => {
         <meta property="og:url" content="https://funromap.web.app" />
       </Head>
       <main className="">
-        <div className="fixed left-0 top-0 z-50 m-0 flex w-full flex-col items-center bg-sky-950 p-3 text-white shadow-lg">
-          <H1>The Funro Map</H1>
-          <H2>{"Because size isn't everything..."}</H2>
-        </div>
+        <Navbar />
         <Map />
         <InfoModal
           show={showInfoModal}
