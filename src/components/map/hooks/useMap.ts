@@ -12,7 +12,7 @@ export const useMap = () => {
   const mapContainer = useRef<null | HTMLDivElement>(null);
   const map = useRef<null | mapboxgl.Map>(null);
   const [lng] = useState(-4.247334);
-  const [lat] = useState(57.022703);
+  const [lat] = useState(56.422703);
   const [zoom] = useState(5.5);
   const [mapIsLoaded, setMapIsLoaded] = useState(false);
 

@@ -3,7 +3,6 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 import { InfoModal } from "~/components/info-modal";
 import { Map } from "~/components/map/map";
-import { Navbar } from "~/components/navbar";
 import { A } from "~/components/typography";
 import { LocalStorageKeys } from "~/constants";
 
@@ -45,7 +44,6 @@ const Home: NextPage = () => {
         <meta property="og:url" content="https://funromap.web.app" />
       </Head>
       <main className="">
-        <Navbar />
         <Map />
         <InfoModal
           show={showInfoModal}

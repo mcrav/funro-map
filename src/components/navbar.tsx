@@ -33,7 +33,7 @@ export const Navbar = () => {
     // eslint-disable-next-line
   }, [menuRef, showMenu]);
   return (
-    <nav className="fixed left-0 top-0 z-50 m-0 w-full bg-sky-950 text-center text-white shadow-lg">
+    <nav className="sticky left-0 top-0 z-50 m-0 w-full bg-sky-950 text-center text-white shadow-lg">
       <div className="ml-auto inline-flex flex-col p-3">
         <H1>The Funro Map</H1>
         <H2>{"Because size isn't everything..."}</H2>
