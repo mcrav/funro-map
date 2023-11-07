@@ -66,7 +66,6 @@ describe("Full app test", () => {
       .invoke("removeAttr", "target")
       .click();
     cy.get("h1").contains("Privacy Policy").should("be.visible");
-    cy.go("back");
 
     // Assert terms link works
     getById(TestIds.HAMBURGER_MENU).click();
@@ -76,6 +75,7 @@ describe("Full app test", () => {
       .invoke("removeAttr", "target")
       .click();
     cy.get("h1").contains("Terms & Conditions").should("be.visible");
+    cy.go("back");
     cy.go("back");
 
     // Assert map exists
